@@ -58,7 +58,6 @@ const detail = (req, res) => {
       ],
       installments: 6,
     },
-    client_id: 471923173,
     external_reference,
     notification_url: `${site}/notifications`,
   };
