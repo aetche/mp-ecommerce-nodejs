@@ -24,7 +24,9 @@ app.get('/failure', function (req, res) {
 });
 
 app.post('/notifications', function (req, res) {
-    console.log('Instant Payment Notification', req);
+    console.log('Instant Payment Notification');
+    console.log('QUERY: ', req.query);
+    console.log('BODY: ', req.body);
     res.status(200).end();
 });
 
