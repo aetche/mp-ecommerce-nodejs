@@ -3,7 +3,8 @@ const mercadopago = require('mercadopago');
 const detail = (req, res) => {
   const site = process.env.URL;
   const { img, title, price, unit } = req.query;
-  const picture_url = new URL(img, [site]);
+  let picture_url = new URL(img, [site]);
+  picture_url = picture_url.href;
 
   const external_reference = "aye.etche@gmail.com";
 
@@ -16,7 +17,7 @@ const detail = (req, res) => {
         description: "Dispositivo móvil de Tienda e-commerce",
         quantity: parseFloat(unit),
         unit_price: parseFloat(price),
-        picture_url: picture_url.href
+        picture_url
       }
     ],
     payer: {
@@ -57,7 +58,6 @@ const detail = (req, res) => {
     notification_url: `${site}/notifications`,
   };
 
-  
   mercadopago.preferences.create(preference).then(function (data) {
     res.render('detail', {
       ...req.query,
