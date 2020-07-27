@@ -1,17 +1,37 @@
-var express = require('express');
-var exphbs  = require('express-handlebars');
- 
-var app = express();
+require('dotenv').config();
+const express = require('express');
+const exphbs  = require('express-handlebars');
+const mercadopago = require('mercadopago');
+const detail = require('./detail');
+const app = express();
  
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
+
+mercadopago.configure({
+    access_token: process.env.YOUR_ACCESS_TOKEN,
+    integrator_id: process.env.INTEGRATOR_ID,
+});
 
 app.get('/', function (req, res) {
     res.render('home');
 });
 
-app.get('/detail', function (req, res) {
-    res.render('detail', req.query);
+app.get('/detail', detail);
+
+app.get('/success', function (req, res) {
+    res.render('message', {...req.query, message: 'Pago exitoso'});
+});
+app.get('/pending', function (req, res) {
+    res.render('message', {...req.query, message: 'Pago en estado pendiente'});
+});
+app.get('/failure', function (req, res) {
+    res.render('message', {...req.query, message: 'Pago rechazado'});
+});
+
+app.post('/notifications', function (req, res) {
+    console.log('Instant Payment Notification', req);
+    res.status(200).end();
 });
 
 app.use(express.static('assets'));
