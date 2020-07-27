@@ -1,5 +1,10 @@
 const mercadopago = require('mercadopago');
 
+mercadopago.configure({
+    access_token: process.env.YOUR_ACCESS_TOKEN,
+    integrator_id: process.env.INTEGRATOR_ID,
+});
+
 const detail = (req, res) => {
   const site = process.env.URL;
   const { img, title, price, unit } = req.query;
@@ -61,7 +66,7 @@ const detail = (req, res) => {
   mercadopago.preferences.create(preference).then(function (data) {
     res.render('detail', {
       ...req.query,
-      init_point: data.init_point
+      init_point: data.body.init_point
     });
   }).catch(function (error) {
     console.log(error);

@@ -1,17 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const exphbs  = require('express-handlebars');
-const mercadopago = require('mercadopago');
 const detail = require('./detail');
 const app = express();
- 
+
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
-
-mercadopago.configure({
-    access_token: process.env.YOUR_ACCESS_TOKEN,
-    integrator_id: process.env.INTEGRATOR_ID,
-});
 
 app.get('/', function (req, res) {
     res.render('home');
